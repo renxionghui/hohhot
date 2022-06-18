@@ -1,0 +1,9 @@
+:root {
+    --theme-color: #409eff;
+}
+
+.main-content {
+    width: calc(100vw - 160px);
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+}
