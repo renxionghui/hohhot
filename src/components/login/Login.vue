@@ -13,8 +13,8 @@
         >登陆</el-button
       >
       <div class="login-footer">
-        <el-button type="text">注册</el-button>
-        <el-button type="text">忘记密码</el-button>
+        <el-button type="primary" link>注册</el-button>
+        <el-button type="primary" link>忘记密码</el-button>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="vegetation-edit-wrap">
+    <div class="vegetation-add-wrap">
         <el-button type="primary" :icon="Back" @click="router.go(-1)">返回</el-button>
         <div class="tabs-wrap">
             <el-tabs tab-position="left">
@@ -676,21 +676,117 @@ import { Back } from '@element-plus/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useDatabase } from '../../common/use-database'
 import { reactive, onMounted, toRefs, toRaw, computed } from 'vue'
+import { usePid } from '../../common/use-pid'
+import { ElMessage } from 'element-plus'
 
 let db
 
 const router = useRouter()
-const route = useRoute()
 const baseData = reactive({
-    vegetation: {}
+    vegetation: {
+        vegetationName: '',
+        vegetationLevel: '',
+        totalArea: '',
+        conservationArea: '',
+        normalBuildingArea: '',
+        classicalBuildingArea: '',
+        gardenRoadArea: '',
+        squareArea: '',
+        waterArea: '',
+        otherArea: '',
+        toiletDistribution: '',
+        remark: ''
+    }
 })
 
 const treeData = reactive({
-    tree: {}
+    tree: {
+        gm_cl_num1: "",
+        gm_cl_num2: "",
+        gm_cl_num3: "",
+        gm_cl_num4: "",
+        gm_cl_num5: "",
+        gm_cl_num6: "",
+        gm_cl_total: 0,
+        gm_cl_type: "",
+        gm_ly_num1: "",
+        gm_ly_num2: "",
+        gm_ly_num3: "",
+        gm_ly_num4: "",
+        gm_ly_num5: "",
+        gm_ly_num6: "",
+        gm_ly_total: 0,
+        gm_ly_type: "",
+        ll_dp_num1: "",
+        ll_dp_num2: "",
+        ll_dp_num3: "",
+        ll_dp_num4: "",
+        ll_dp_total: 0,
+        ll_dp_type: "",
+        ll_pz_num1: "",
+        ll_pz_num2: "",
+        ll_pz_num3: "",
+        ll_pz_num4: "",
+        ll_pz_total: 0,
+        ll_pz_type: "",
+        ll_sp_num1: "",
+        ll_sp_num2: "",
+        ll_sp_num3: "",
+        ll_sp_num4: "",
+        ll_sp_total: 0,
+        ll_sp_type: "",
+        qm_cl_num1: "",
+        qm_cl_num2: "",
+        qm_cl_num3: "",
+        qm_cl_num4: "",
+        qm_cl_num5: "",
+        qm_cl_total: 0,
+        qm_cl_type: "",
+        qm_ly_num1: "",
+        qm_ly_num2: "",
+        qm_ly_num3: "",
+        qm_ly_num4: "",
+        qm_ly_num5: "",
+        qm_ly_num6: "",
+        qm_ly_num7: "",
+        qm_ly_total: 0,
+        qm_ly_type: "",
+    }
 })
 
 const grassData = reactive({
-    grass: {}
+    grass: {
+        ch_num1: "",
+        ch_num2: "",
+        ch_total: 0,
+        cp_num1: "",
+        cp_num2: "",
+        cp_total: 0,
+        ht_num1: "",
+        ht_num2: "",
+        ht_total: 0,
+        pd_num1: "",
+        pd_num2: "",
+        pd_num3: "",
+        pd_num4: "",
+        pd_total: 0,
+        pd_type: "",
+        py_num1: "",
+        py_num2: "",
+        py_num3: "",
+        py_num4: "",
+        py_total: 0,
+        py_type: "",
+        qx_num1: "",
+        qx_num2: "",
+        qx_num3: "",
+        qx_num4: "",
+        qx_total: 0,
+        qx_type: "",
+        ss_num1: "",
+        ss_num2: "",
+        ss_total: 0,
+    }
 })
 const { vegetation } = toRefs(baseData)
 const { tree } = toRefs(treeData)
@@ -806,18 +902,18 @@ const py_total = computed(() => {
     return num1 + num2 + num3 + num4
 })
 
-let cid
 onMounted(async () => {
     db = await useDatabase();
-    cid = Number(route.query.cid);
-    baseData.vegetation = await db.queryVegetationByCid(cid);
-    treeData.tree = await db.queryTreeByCid(cid);
-    grassData.grass = await db.queryGrassByCid(cid);
 })
 
 const handleSave = async () => {
     const vegetaionItem = toRaw(vegetation.value)
-    await db.putVegetationByCid(vegetaionItem, cid)
+    if (!vegetaionItem.vegetationName) {
+        ElMessage.error('请输入绿地名称')
+        return
+    }
+    vegetaionItem.pid = usePid().value
+    const cid = await db.addVegetation(vegetaionItem)
 
     const treeItem = toRaw(tree.value)
     treeItem.qm_ly_total = qm_ly_total.value
@@ -827,7 +923,8 @@ const handleSave = async () => {
     treeItem.ll_dp_total = ll_dp_total.value
     treeItem.ll_sp_total = ll_sp_total.value
     treeItem.ll_pz_total = ll_pz_total.value
-    await db.putTreeByCid(treeItem, cid)
+    treeItem.cid = cid
+    await db.addTree(treeItem)
 
     const grassItem = toRaw(grass.value)
     grassItem.qx_total = qx_total.value
@@ -837,7 +934,8 @@ const handleSave = async () => {
     grassItem.ss_total = ss_total.value
     grassItem.ht_total = ht_total.value
     grassItem.py_total = py_total.value
-    await db.putGrassByCid(grassItem, cid)
+    grassItem.cid = cid
+    await db.addGrass(grassItem)
 
     router.go(-1)
 }

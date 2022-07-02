@@ -9,10 +9,6 @@ import { useEcharts } from '../../common/use-echarts'
 const echartsDom = ref(null)
 onMounted(() => {
     const echart = useEcharts(echartsDom.value)
-    console.log(echart)
-    echart.on("mouseover",'',(e)=>{
-        console.log(e)
-    })
 })
 
 </script>
