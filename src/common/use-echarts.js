@@ -75,7 +75,7 @@ const useEcharts = (dom) => {
         title: {
             top: 48,
             left: 48,
-            text: '呼和浩特市量化评估',
+            text: '呼和浩特市绿地量化评估',
             textStyle: {
                 color: '#0281F0',
                 fontWeight: 700,
