@@ -1,4 +1,4 @@
-{
+export default {
 "type": "FeatureCollection",
 "features": [
 { "type": "Feature", "properties": { "full_id": "w363823098", "osm_id": "363823098", "osm_type": "way", "leisure": "park", "name": "", "name:en": "", "addr:city": "", "addr:district": "", "addr:province": "", "addr:street": "", "opening_hours": "", "full_id_2": null, "osm_id_2": null, "osm_type_2": null, "leisure_2": null, "full_id_3": null, "osm_id_3": null, "osm_type_3": null, "landuse": null, "full_id_4": "w363823405", "osm_id_4": "363823405", "osm_type_4": "way", "landuse_2": "grass" }, "geometry": { "type": "Polygon", "coordinates": [[[ 111.7333514, 40.8371345 ], [ 111.7333708, 40.8371412 ], [ 111.733431, 40.8371271 ], [ 111.7334814, 40.8371003 ], [ 111.7335239, 40.8370642 ], [ 111.7335372, 40.8370361 ], [ 111.733531, 40.8370133 ], [ 111.733508, 40.8370026 ], [ 111.733454, 40.8370167 ], [ 111.7334115, 40.8370434 ], [ 111.7333673, 40.8370816 ], [ 111.7333469, 40.8371177 ], [ 111.7333514, 40.8371345 ]]] } },

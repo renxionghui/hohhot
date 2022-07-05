@@ -6,6 +6,7 @@ import { onMounted } from "vue"
 import { useMap } from "../../common/use-map"
 import * as turf from '@turf/turf'
 import { usePopup } from '../../common/use-popup'
+import park from '../../common/geojson/park'
 
 let map = null;
 
@@ -52,7 +53,7 @@ onMounted(() => {
     map.on('load', () => {
         map.addSource('park', {
             'type': 'geojson',
-            'data': 'data/park.geojson'
+            'data': park
         })
 
         map.addLayer({
